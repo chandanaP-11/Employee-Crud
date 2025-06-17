@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const api = "https://employee-crud-server-svou.onrender.com/employee";
+const api = "https://employee-crud-server-svou.onrender.com/employees";
 
 // Fetch all employees
 export const fetchEmployees = createAsyncThunk('employee/fetch', async () => {
