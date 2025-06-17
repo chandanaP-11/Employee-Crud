@@ -59,7 +59,7 @@ function EmpListModernTable() {
             </thead>
             <tbody>
               {employees.length > 0 ? (
-                employees.map((emp) => (
+                employees?.map((emp) => (
                   <tr key={emp.id}>
                     <td>{emp.name}</td>
                     <td>
