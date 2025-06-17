@@ -18,6 +18,7 @@ function EmpListModernTable() {
   }, [dispatch]);
 
   const handleEdit = (id) => {
+    console.log(id)
     navigate(`/edit/${id}`);
   };
 

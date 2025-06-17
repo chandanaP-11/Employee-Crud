@@ -24,7 +24,7 @@ function AddEmpForm() {
 
   const handleAdd = async () => {
     try {
-      const res = await axios.post('http://localhost:3000/employees', emp);
+      const res = await axios.post('https://employee-crud-server-svou.onrender.com/employees', emp);
       if (res.status === 201) {
         alert('Employee added successfully!');
         nav('/');

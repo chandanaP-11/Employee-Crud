@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { Button, Spinner } from 'react-bootstrap';
+
+
 import axios from 'axios';
 
 function EditEmpForm() {
@@ -25,7 +27,7 @@ function EditEmpForm() {
   // Fetch employee data on load
   const fetchEmp = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/employees/${id}`);
+      const res = await axios.get(`https://employee-crud-server-svou.onrender.com/employees/${id}`);
       setEmp(res.data);
       setLoading(false);
     } catch (err) {
@@ -46,7 +48,7 @@ function EditEmpForm() {
   // Submit updated data
   const handleUpdate = async () => {
     try {
-      const res = await axios.put(`http://localhost:3000/employees/${id}`, emp);
+      const res = await axios.put(`https://employee-crud-server-svou.onrender.com/employees/${id}`, emp);
       if (res.status === 200) {
         alert('Employee updated successfully!');
         nav('/');

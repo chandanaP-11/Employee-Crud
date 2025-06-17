@@ -3,32 +3,36 @@ import axios from 'axios';
 
 const api = "https://employee-crud-server-svou.onrender.com/employees";
 
-// Fetch all employees
-export const fetchEmployees = createAsyncThunk('employee/fetch', async () => {
+
+// Async Thunks
+
+// 1. Fetch All Employees
+export const fetchEmployees = createAsyncThunk('employees/fetch', async () => {
   const res = await axios.get(api);
   return res.data;
 });
 
-// Delete employee
-export const deleteEmployee = createAsyncThunk('employee/delete', async (id) => {
+// 2. Delete an Employee
+export const deleteEmployee = createAsyncThunk('employees/delete', async (id) => {
   await axios.delete(`${api}/${id}`);
   return id;
 });
 
-// Update employee
-export const updateEmployee = createAsyncThunk('employee/update', async ({ id, updatedData }) => {
+// 3. Update Employee
+export const updateEmployee = createAsyncThunk('employees/update', async ({ id, updatedData }) => {
   const res = await axios.put(`${api}/${id}`, updatedData);
   return res.data;
 });
 
-// Add new employee (optional)
-export const addEmployee = createAsyncThunk('employee/add', async (newData) => {
+// 4. Add New Employee
+export const addEmployee = createAsyncThunk('employees/add', async (newData) => {
   const res = await axios.post(api, newData);
   return res.data;
 });
 
+// Slice
 const employeeSlice = createSlice({
-  name: 'employee',
+  name: 'employees',
   initialState: {
     employees: [],
     loading: false,
@@ -40,7 +44,7 @@ const employeeSlice = createSlice({
       // FETCH
       .addCase(fetchEmployees.pending, (state) => {
         state.loading = true;
-
+        state.error = null;
       })
       .addCase(fetchEmployees.fulfilled, (state, action) => {
         state.loading = false;
@@ -52,21 +56,45 @@ const employeeSlice = createSlice({
       })
 
       // DELETE
+      .addCase(deleteEmployee.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(deleteEmployee.fulfilled, (state, action) => {
+        state.loading = false;
         state.employees = state.employees.filter(emp => emp.id !== action.payload);
+      })
+      .addCase(deleteEmployee.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       })
 
       // UPDATE
+      .addCase(updateEmployee.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(updateEmployee.fulfilled, (state, action) => {
+        state.loading = false;
         const index = state.employees.findIndex(emp => emp.id === action.payload.id);
         if (index !== -1) {
           state.employees[index] = action.payload;
         }
       })
+      .addCase(updateEmployee.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
 
       // ADD
+      .addCase(addEmployee.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(addEmployee.fulfilled, (state, action) => {
+        state.loading = false;
         state.employees.push(action.payload);
+      })
+      .addCase(addEmployee.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
