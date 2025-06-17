@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const api = 'https://employee-crud-server-svou.onrender.com';
+const api = "https://employee-crud-server-svou.onrender.com/employee";
 
 // Fetch all employees
 export const fetchEmployees = createAsyncThunk('employee/fetch', async () => {
@@ -40,6 +40,7 @@ const employeeSlice = createSlice({
       // FETCH
       .addCase(fetchEmployees.pending, (state) => {
         state.loading = true;
+
       })
       .addCase(fetchEmployees.fulfilled, (state, action) => {
         state.loading = false;
